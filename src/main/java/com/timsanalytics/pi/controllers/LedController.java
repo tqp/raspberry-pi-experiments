@@ -1,19 +1,23 @@
 package com.timsanalytics.pi.controllers;
 
 import com.pi4j.io.gpio.*;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+@RequestMapping("/led")
+@Tag(name = "LED", description = "LED")
 public class LedController {
     private static GpioPinDigitalOutput pin;
 
-    @RequestMapping("/")
-    public String greeting() {
-        return "Hello World!";
-    }
-
-    @RequestMapping("/light")
+    @ResponseBody
+    @RequestMapping(value = "/turn-on-then-off", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @Operation(summary = "Turn On Then Off", description = "Turn On Then Off", tags = {"LED"})
     public String light() {
         if (pin == null) {
             GpioController gpio = GpioFactory.getInstance();

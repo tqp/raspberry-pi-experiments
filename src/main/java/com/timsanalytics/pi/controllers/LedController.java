@@ -15,20 +15,39 @@ public class LedController {
     private static GpioPinDigitalOutput pin;
 
     @ResponseBody
-    @RequestMapping(value = "/turn-on-then-off", method = RequestMethod.GET)
-    @Operation(summary = "Turn On Then Off", description = "Turn On Then Off", tags = {"LED"})
-    public String light() {
+    @RequestMapping(value = "/toggle", method = RequestMethod.GET)
+    @Operation(summary = "Toggle LED", description = "Toggle LED", tags = {"LED"})
+    public void light() {
         if (pin == null) {
             GpioController gpio = GpioFactory.getInstance();
-
-            // Raspberry Pi 4 uses a different pin scheme than prior versions.
-            // Ref: https://stackoverflow.com/questions/64584365/raspberry-pi4-with-pi4j-java
-            // Fix that here...
             GpioFactory.setDefaultProvider(new RaspiGpioProvider(RaspiPinNumberingScheme.BROADCOM_PIN_NUMBERING));
-
             pin = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_19, "MyLed", PinState.LOW);
         }
         pin.toggle();
-        return "OK";
+        System.out.println("Current state is " + pin.getState());
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/on", method = RequestMethod.GET)
+    @Operation(summary = "LED On", description = "LED On", tags = {"LED"})
+    public void turnOn() {
+        if (pin == null) {
+            GpioController gpio = GpioFactory.getInstance();
+            GpioFactory.setDefaultProvider(new RaspiGpioProvider(RaspiPinNumberingScheme.BROADCOM_PIN_NUMBERING));
+            pin = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_19, "MyLed", PinState.LOW);
+        }
+        pin.high();
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/off", method = RequestMethod.GET)
+    @Operation(summary = "LED On", description = "LED On", tags = {"LED"})
+    public void turnOff() {
+        if (pin == null) {
+            GpioController gpio = GpioFactory.getInstance();
+            GpioFactory.setDefaultProvider(new RaspiGpioProvider(RaspiPinNumberingScheme.BROADCOM_PIN_NUMBERING));
+            pin = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_19, "MyLed", PinState.LOW);
+        }
+        pin.low();
     }
 }

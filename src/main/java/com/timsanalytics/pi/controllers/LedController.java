@@ -3,7 +3,6 @@ package com.timsanalytics.pi.controllers;
 import com.pi4j.io.gpio.*;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -16,7 +15,7 @@ public class LedController {
     private static GpioPinDigitalOutput pin;
 
     @ResponseBody
-    @RequestMapping(value = "/turn-on-then-off", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/turn-on-then-off", method = RequestMethod.GET)
     @Operation(summary = "Turn On Then Off", description = "Turn On Then Off", tags = {"LED"})
     public String light() {
         if (pin == null) {

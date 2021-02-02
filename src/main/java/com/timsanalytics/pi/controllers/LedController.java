@@ -29,7 +29,7 @@ public class LedController {
 
     @ResponseBody
     @RequestMapping(value = "/on", method = RequestMethod.GET)
-    @Operation(summary = "LED On", description = "LED On", tags = {"LED"})
+    @Operation(summary = "LED Off", description = "LED Off", tags = {"LED"})
     public void turnOn() {
         if (pin == null) {
             GpioController gpio = GpioFactory.getInstance();

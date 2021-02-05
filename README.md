@@ -1,6 +1,7 @@
 # Tim's Raspberry Pi Experiments
 
 ## To Deploy
+git clone https://github.com/tqp/raspberry-pi-experiments.git
 git pull  
 mvn package  
 sudo java -jar <target>.jar  

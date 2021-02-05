@@ -69,24 +69,25 @@ public class MotionSensorController {
         GpioUtil.enableNonPrivilegedAccess();
 
         final GpioController gpioPIRMotionSensor = GpioFactory.getInstance();
-        final GpioPinDigitalInput pirMotionsensor = gpioPIRMotionSensor.provisionDigitalInputPin(RaspiPin.GPIO_26, PinPullResistance.PULL_DOWN);
+        GpioFactory.setDefaultProvider(new RaspiGpioProvider(RaspiPinNumberingScheme.BROADCOM_PIN_NUMBERING));
+        final GpioPinDigitalInput pirMotionSensor = gpioPIRMotionSensor.provisionDigitalInputPin(RaspiPin.GPIO_26, PinPullResistance.PULL_DOWN);
 
         //Create gpio controller for LED listening on the pin GPIO_01 with default PinState as LOW
         final GpioController gpioLED = GpioFactory.getInstance();
-        final GpioPinDigitalOutput led = gpioLED.provisionDigitalOutputPin(RaspiPin.GPIO_01,"LED",PinState.LOW);
+        final GpioPinDigitalOutput led = gpioLED.provisionDigitalOutputPin(RaspiPin.GPIO_01, "LED", PinState.LOW);
         led.low();
 
         //Create and register gpio pin listener on PIRMotion Sensor GPIO Input instance
-        pirMotionsensor.addListener(new GpioPinListenerDigital() {
+        pirMotionSensor.addListener(new GpioPinListenerDigital() {
 
             public void handleGpioPinDigitalStateChangeEvent(GpioPinDigitalStateChangeEvent event) {
-//if the event state is High then print "Intruder Detected" and turn the LED ON by invoking the high() method
-                if(event.getState().isHigh()){
+                //if the event state is High then print "Intruder Detected" and turn the LED ON by invoking the high() method
+                if (event.getState().isHigh()) {
                     System.out.println("Intruder Detected!");
                     led.high();
                 }
-//if the event state is Low then print "All is quiet.." and make the LED OFF by invoking the low() method
-                if(event.getState().isLow()){
+                //if the event state is Low then print "All is quiet.." and make the LED OFF by invoking the low() method
+                if (event.getState().isLow()) {
                     System.out.println("All is quiet...");
                     led.low();
                 }
@@ -95,11 +96,10 @@ public class MotionSensorController {
 
         try {
             // keep program running until user aborts
-            for (;;) {
+            for (; ; ) {
                 //Thread.sleep(500);
             }
-        }
-        catch (final Exception e) {
+        } catch (final Exception e) {
             System.out.println(e.getMessage());
         }
     }

@@ -19,3 +19,11 @@ GpioFactory.setDefaultProvider(new RaspiGpioProvider(RaspiPinNumberingScheme.BRO
 
 LEDs on Raspberry Pi GPIO with Java Pi4J - Start to Finish  
 https://www.youtube.com/watch?v=29va8L2LMfI
+
+
+## Wiring for Projects
+
+# Motion Sensor
+Board GND to Sensor GND (Black)
+Board 5V to Sensor VCC 5V (Red)
+Board OUT to GPIO26 (Yellow)
